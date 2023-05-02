@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "app-demo.fullname" . }}
+spec:
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    {{- include "app-demo.selectorLabels" . | nindent 4 }}
+  endpoints:
+    - interval: 10s
+      targetPort: http
+      path: /metrics
